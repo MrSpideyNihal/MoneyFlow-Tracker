@@ -190,26 +190,7 @@ netlify deploy --prod
 - `PUT /api/transactions/:id` - Update transaction
 - `DELETE /api/transactions/:id` - Delete transaction
 
-## Git Commit Messages 📝
 
-Use these commit messages after each major change:
-
-```
-feat: Initialize Vite React project with Tailwind CSS setup
-feat: Add Netlify Functions backend with Express and MongoDB
-feat: Implement User and Transaction Mongoose models
-feat: Add JWT authentication (register, login, middleware)
-feat: Create authentication pages (Login, Register)
-feat: Add AuthContext and protected routes
-feat: Build Dashboard with stats cards and recent transactions
-feat: Integrate Recharts for expense pie and income/expense bar charts
-feat: Create Transactions page with search, filter, and pagination
-feat: Add transaction modal for create/edit operations
-feat: Implement delete transaction with confirmation
-feat: Add CSV and PDF export functionality
-feat: Apply responsive Tailwind styling and polish UI
-docs: Add setup and deployment instructions in README
-```
 
 ## Environment Variables 🔐
 
@@ -224,4 +205,4 @@ MIT License - feel free to use this project for your own purposes!
 
 ---
 
-Made with ❤️ by MoneyFlow Team
+Made with ❤️ by Me * AI

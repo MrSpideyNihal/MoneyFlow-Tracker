@@ -1,4 +1,4 @@
-import { FiTrendingUp, FiTrendingDown, FiDollarSign } from 'react-icons/fi'
+import { FiTrendingUp, FiTrendingDown, FiCreditCard } from 'react-icons/fi'
 
 function StatsCard({ type, amount, label }) {
     const config = {
@@ -15,7 +15,7 @@ function StatsCard({ type, amount, label }) {
             iconColor: 'text-red-400',
         },
         balance: {
-            icon: FiDollarSign,
+            icon: FiCreditCard,
             gradient: 'balance-gradient',
             iconBg: 'bg-blue-500/20',
             iconColor: 'text-blue-400',

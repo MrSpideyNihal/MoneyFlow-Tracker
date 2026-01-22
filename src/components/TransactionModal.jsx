@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FiX, FiDollarSign, FiFileText, FiMapPin, FiCalendar, FiMessageSquare } from 'react-icons/fi'
+import { FiX, FiFileText, FiMapPin, FiCalendar, FiMessageSquare } from 'react-icons/fi'
 import toast from 'react-hot-toast'
 import { transactionAPI } from '../utils/api'
 
@@ -135,10 +135,10 @@ function TransactionModal({ isOpen, onClose, transaction, onSuccess, defaultType
                     {/* Amount */}
                     <div>
                         <label className="block text-sm font-medium text-gray-300 mb-2">
-                            Amount
+                            Amount (₹)
                         </label>
                         <div className="relative">
-                            <FiDollarSign className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium">₹</span>
                             <input
                                 type="number"
                                 value={amount}

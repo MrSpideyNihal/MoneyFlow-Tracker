@@ -17,11 +17,12 @@ let isConnected = false;
 const connectDB = async () => {
     if (isConnected) return;
 
+    if (!process.env.MONGODB_URI) {
+        throw new Error('MONGODB_URI environment variable is not set');
+    }
+
     try {
-        const conn = await mongoose.connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect(process.env.MONGODB_URI);
         isConnected = true;
         console.log('MongoDB Connected');
     } catch (error) {
@@ -256,8 +257,10 @@ app.get('/api/transactions/stats', authMiddleware, async (req, res) => {
     try {
         await connectDB();
 
+        const userId = new mongoose.Types.ObjectId(req.user._id);
+
         const stats = await Transaction.aggregate([
-            { $match: { user: req.user._id } },
+            { $match: { user: userId } },
             {
                 $group: {
                     _id: '$type',
@@ -277,7 +280,7 @@ app.get('/api/transactions/stats', authMiddleware, async (req, res) => {
         const monthlyStats = await Transaction.aggregate([
             {
                 $match: {
-                    user: req.user._id,
+                    user: userId,
                     date: { $gte: sixMonthsAgo },
                 },
             },
@@ -296,7 +299,7 @@ app.get('/api/transactions/stats', authMiddleware, async (req, res) => {
 
         // Get expense breakdown by description/fromWhere
         const expenseBreakdown = await Transaction.aggregate([
-            { $match: { user: req.user._id, type: 'expense' } },
+            { $match: { user: userId, type: 'expense' } },
             {
                 $group: {
                     _id: { $ifNull: ['$fromWhere', '$description'] },

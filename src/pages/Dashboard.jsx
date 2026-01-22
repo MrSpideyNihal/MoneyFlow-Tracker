@@ -130,7 +130,8 @@ function Dashboard() {
             <TransactionModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
-                transaction={modalType === 'income' ? { type: 'income' } : { type: 'expense' }}
+                transaction={null}
+                defaultType={modalType}
                 onSuccess={fetchData}
             />
         </div>

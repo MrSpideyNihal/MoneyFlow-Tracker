@@ -3,7 +3,7 @@ import { FiX, FiDollarSign, FiFileText, FiMapPin, FiCalendar, FiMessageSquare } 
 import toast from 'react-hot-toast'
 import { transactionAPI } from '../utils/api'
 
-function TransactionModal({ isOpen, onClose, transaction, onSuccess }) {
+function TransactionModal({ isOpen, onClose, transaction, onSuccess, defaultType }) {
     const [type, setType] = useState('expense')
     const [amount, setAmount] = useState('')
     const [description, setDescription] = useState('')
@@ -12,20 +12,25 @@ function TransactionModal({ isOpen, onClose, transaction, onSuccess }) {
     const [date, setDate] = useState(new Date().toISOString().split('T')[0])
     const [loading, setLoading] = useState(false)
 
-    const isEditing = !!transaction
+    // Only editing if transaction has an _id (existing transaction from DB)
+    const isEditing = !!(transaction && transaction._id)
 
     useEffect(() => {
-        if (transaction) {
-            setType(transaction.type)
-            setAmount(transaction.amount.toString())
-            setDescription(transaction.description)
+        if (isEditing && transaction) {
+            setType(transaction.type || 'expense')
+            setAmount(transaction.amount ? transaction.amount.toString() : '')
+            setDescription(transaction.description || '')
             setFromWhere(transaction.fromWhere || '')
             setNotes(transaction.notes || '')
-            setDate(new Date(transaction.date).toISOString().split('T')[0])
+            setDate(transaction.date ? new Date(transaction.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0])
         } else {
             resetForm()
+            // Set default type if provided (for quick add buttons)
+            if (defaultType) {
+                setType(defaultType)
+            }
         }
-    }, [transaction, isOpen])
+    }, [transaction, isOpen, defaultType])
 
     const resetForm = () => {
         setType('expense')
@@ -108,8 +113,8 @@ function TransactionModal({ isOpen, onClose, transaction, onSuccess }) {
                                 type="button"
                                 onClick={() => setType('income')}
                                 className={`py-3 px-4 rounded-lg font-medium transition-all ${type === 'income'
-                                        ? 'bg-green-500/20 text-green-400 border-2 border-green-500'
-                                        : 'bg-slate-700 text-gray-400 border-2 border-transparent hover:border-slate-600'
+                                    ? 'bg-green-500/20 text-green-400 border-2 border-green-500'
+                                    : 'bg-slate-700 text-gray-400 border-2 border-transparent hover:border-slate-600'
                                     }`}
                             >
                                 💰 Income
@@ -118,8 +123,8 @@ function TransactionModal({ isOpen, onClose, transaction, onSuccess }) {
                                 type="button"
                                 onClick={() => setType('expense')}
                                 className={`py-3 px-4 rounded-lg font-medium transition-all ${type === 'expense'
-                                        ? 'bg-red-500/20 text-red-400 border-2 border-red-500'
-                                        : 'bg-slate-700 text-gray-400 border-2 border-transparent hover:border-slate-600'
+                                    ? 'bg-red-500/20 text-red-400 border-2 border-red-500'
+                                    : 'bg-slate-700 text-gray-400 border-2 border-transparent hover:border-slate-600'
                                     }`}
                             >
                                 💸 Expense
